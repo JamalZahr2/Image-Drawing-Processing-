@@ -17,66 +17,6 @@ void setup() {
   appWidth = width;
   appHeight = height;
   //
-  //Aspect Ratio of Background Image
-  //imagefilehere
-  //Note: Dimensions are found in the image file / Right Click / Properties / Details
-  int picWidth = 800; //Amogus
-  int picHeight = 600;
-  int picWidth2 = ; //Amogus2
-  int picHeight2 = ;
-  int picWidth3 = ; //Amogus3
-  int picHeight3 = ;
-  /*
-  int picWidth3 = 325; //Portrait
-   int picHeight3 = 485; //Portrait
-   */
-  //Image Orientation: Landscape, Square, Portrait
-  float smallDimension, largerDimension, imageWidthRatio=0.0, imageHeightRatio=0.0;
-  float smallDimension2, largerDimension2, imageWidthRatio2=0.0, imageHeightRatio2=0.0;
-  float smallDimension3, largerDimension3, imageWidthRatio3=0.0, imageHeightRatio3=0.0;
-  Boolean widthLarger = false, heightLarger = false, widthLarger2 = false, heightLarger2 = false;
-  Boolean widthLarger3 = false, heightLarger3 = false;
-  if ( picWidth >= picHeight ) { //True if Landscape or Square
-    largerDimension = picWidth;
-    smallDimension = picHeight;
-    widthLarger = true;
-  } else { //False if Portrait
-    largerDimension = picHeight;
-    smallDimension = picWidth;
-    heightLarger = true;
-  }
-  //
-  //Teaching Example: Width is known to be larger
-  //Better Image Stretch Algorithm
-  if ( appWidth >= picWidth ) {
-    picWidthAdjusted = picWidth; //Stretching larger dimension
-    //
-    if ( widthLarger == true ) imageWidthRatio = largerDimension / largerDimension;
-    //
-    if ( appHeight >= picHeight ) {
-      //Calculated Dimension because smaller than width
-      if ( widthLarger == true ) imageHeightRatio = smallDimension / largerDimension;
-      picHeightAdjusted = picWidthAdjusted * imageHeightRatio;
-      if ( appHeight < picHeightAdjusted ) {
-        println("Stop: Image is too big for CANVAS");
-        exit(); //Stop further use of the App
-      }
-    } else {
-      //Image smaller than CANVAS needs separate algorithm
-      println("CANVAS is smaller than Image");
-    }
-  } else {
-    //Image smaller than CANVAS, needs separate algorithm
-    println("CANVAS is smaller than Image");
-  }
-  //
-  /*Aspect Ratio Calculations, Older Calculations
-   if ( widthLarger == true ) imageWidthRatio = largerDimension / largerDimension;
-   if ( widthLarger == true ) imageHeightRatio = smallDimension / largerDimension;
-   if ( heightLarger == true ) imageWidthRatio = smallDimension / largerDimension;
-   if ( heightLarger == true ) imageHeightRatio = largerDimension / largerDimension;
-   */
-  //
   //Population
   backgroundImageX = appWidth*0;
   backgroundImageY = appHeight*0;
@@ -94,45 +34,155 @@ void setup() {
   pic2 = loadImage("../Images Used/Landscape/amogus2.png");
   pic3 = loadImage("../Images Used/Portrait/amogus.png");
   //
-  //Verify Variable Values after Algorithm
-  println("App Width", appWidth, " and App Height:", appHeight);
-  println("Image dimensions are:", picWidth, picHeight);
-  println("Larger Image Dimension is:", largerDimension);
-  println("Adjusted Image Dimensions are (stretch is goal):", picWidthAdjusted, picHeightAdjusted);
-  //
-  //Rectangular Layout and Image Drawing to CANVAS
-  //rect(backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight);
-  rect( topX, topY, topWidth, topHeight ); //Top Half
-  rect( bottomX, bottomY, bottomWidth, bottomHeight ); //Bottom Half
-  //
-  //Algorithm uses rect-variables
+  //Aspect Ratio of Background Image
+  //Image Dimensions for Aspect Ratio: Image meta data
+  //Note: Meta data explored in MP3's or music files
+  //imagefilehere
+  //Note: Dimensions are found in the image file / Right Click / Properties / Details
+  int picWidth = 800; //Amogus
+  int picHeight = 600;
+  int picWidth2 = 800; //Amogus2
+  int picHeight2 = 600;
+  int picWidth3 = 800; //Amogus3
+  int picHeight3 = 600;
+  /*
+  int picWidth3 = 325; //Portrait
+   int picHeight3 = 485; //Portrait
+   */
+  //Image Orientation: Landscape, Square, Portrait
+  float smallDimension, largerDimension, imageWidthRatio1=0.0, imageHeightRatio1=0.0;
+  float smallDimension2, largerDimension2, imageWidthRatio2=0.0, imageHeightRatio2=0.0;
+  float smallDimension3, largerDimension3, imageWidthRatio3=0.0, imageHeightRatio3=0.0;
+  if ( picWidth >= picHeight ) { //True if Landscape or Square
+    largerDimension = picWidth;
+    smallDimension = picHeight;
+    //
+    //Landscape Image larger image to smaller rectangle (or larger)
+    picWidthAdjusted = backgroundImageWidth; //stretch or reduce
+    imageHeightRatio = smallDimension / largerDimension;
+    picHeightAdjusted = picWidthAdjusted * imageHeightRatio;
+    //
+    if ( picHeightAdjusted > backgroundImageHeight ) { //Error Catch
+      println("Stop: Image is too big for rectangle layout");
+      exit(); //stop further use of the APP
+    }
+  } else { //False if Portrait
+    largerDimension = picHeight;
+    smallDimension = picWidth;
+    //
+    //Students to create
+    picHeightAdjusted = backgroundImageHeight; //stretch or reduce
+    imageWidthRatio = smallDimension / largerDimension;
+    picWidthAdjusted = picHeightAdjusted * imageWidthRatio;
+    if ( picWidthAdjusted > backgroundImageWidth ) {
+      println("Stop: Image is too big for rectangle layout");
+      exit(); //stop further use of the APP
+    }
+  }
   if ( picWidth2 >= picHeight2 ) { //True if Landscape or Square
     largerDimension2 = picWidth2;
     smallDimension2 = picHeight2;
-    widthLarger2 = true;
-    //Landscape large Image to larger space OR smaller space
-    picWidthAdjusted2 = picWidth2; //Stretch or reduce
+    //
+    //Landscape Image larger image to smaller rectangle (or larger)
+    picWidthAdjusted2 = topWidth; //stretch or reduce
     imageHeightRatio2 = smallDimension2 / largerDimension2;
     picHeightAdjusted2 = picWidthAdjusted2 * imageHeightRatio2;
-    println("here", picWidthAdjusted2, picHeightAdjusted2);
-    if ( picHeightAdjusted2 > topHeight ) {
+    //
+    if ( picHeightAdjusted2 > topHeight ) { //Error Catch
       println("Stop: Image is too big for rectangle layout");
-      exit(); //Stop further use of the app
+      exit(); //stop further use of the APP
     }
   } else { //False if Portrait
     largerDimension2 = picHeight2;
     smallDimension2 = picWidth2;
-    heightLarger2 = true;
-    //Portrait Image larger image to smaller rectangle (or larger)
-    picHeightAdjusted2 = bottomHeight; //Stretch or reduce
+    //
+    //Students to create
+    picHeightAdjusted2 = topHeight; //stretch or reduce
     imageWidthRatio2 = smallDimension2 / largerDimension2;
     picWidthAdjusted2 = picHeightAdjusted2 * imageWidthRatio2;
-    println("Here", picWidthAdjusted2, picHeightAdjusted2);
-    if (picWidthAdjusted2 > topWidth ) {
+    if ( picWidthAdjusted2 > topWidth ) {
       println("Stop: Image is too big for rectangle layout");
-      exit(); //Stop further use of the App
+      exit(); //stop further use of the APP
     }
   }
+  if ( picWidth3 >= picHeight3 ) { //True if Landscape or Square
+    largerDimension3 = picWidth3;
+    smallDimension3 = picHeight3;
+    //
+    //Landscape Image larger image to smaller rectangle (or larger)
+    picWidthAdjusted3 = bottomWidth; //stretch or reduce
+    imageHeightRatio3 = smallDimension3 / largerDimension3;
+    picHeightAdjusted3 = picWidthAdjusted3 * imageHeightRatio3;
+    //
+    if ( picHeightAdjusted3 > bottomHeight ) { //Error Catch
+      println("Stop: Image is too big for rectangle layout");
+      exit(); //stop further use of the APP
+    }
+  } else { //False if Portrait
+    largerDimension3 = picHeight3;
+    smallDimension3 = picWidth3;
+    //
+    //Students to create
+    picHeightAdjusted3 = bottomHeight; //stretch or reduce
+    imageWidthRatio3 = smallDimension3 / largerDimension3;
+    picWidthAdjusted3 = picHeightAdjusted3 * imageWidthRatio3;
+    if ( picWidthAdjusted3 > bottomWidth ) {
+      println("Stop: Image is too big for rectangle layout");
+      exit(); //stop further use of the APP
+    }
+  }
+
+
+
+
+
+
+
+
+  if ( picWidth >= picHeight ) { //True if Landscape or Square
+    largerDimension = picWidth;
+    smallDimension = picHeight;
+    widthLarger = true;
+  } else { //False if Portrait
+    largerDimension = picHeight;
+    smallDimension = picWidth;
+    heightLarger = true;
+  }
+  //
+  //Teaching Example: width is known to be larger
+  //Better Image Stretch Algorithm
+  if ( appWidth >= picWidth ) {
+    picWidthAdjusted = appWidth; //Stretching larger dimension
+    //
+    if ( widthLarger == true ) imageWidthRatio = largerDimension / largerDimension;
+    //
+    if ( appHeight >= picHeight ) {
+      //Calculated Dimension b/c smaller than width
+      if ( widthLarger == true ) imageHeightRatio = smallDimension / largerDimension;
+      picHeightAdjusted = picWidthAdjusted * imageHeightRatio;
+      if ( appHeight < picHeightAdjusted ) {
+        println("Stop: Image is too big for CANVAS");
+        exit(); //stop further use of the APP
+      }
+    } else {
+      //Image smaller than CANVAS needs separate algorithm
+      println("CANVAS is smaller than Image");
+    }
+  } else {
+    //Image smaller than CANVAS, needs separate algorithm
+    println("CANVAS is smaller than Image");
+  }
+  //
+
+  //Verify Variable Values after Algorithm
+  println("App Width:", appWidth, " and App Height:", appHeight);
+  println("Image dimensions are:", picWidth, picHeight);
+  println("Larger Image dimension is:", largerDimension);
+  println("Adjusted Image dimesnions are (stretch is goal):", picWidthAdjusted, picHeightAdjusted);
+  //
+
+  //Algorithm uses rect-variables
+
   if ( picWidth3 >= picHeight3 ) { //True if Landscape or Square
     largerDimension3 = picWidth3;
     smallDimension3 = picHeight3;
@@ -161,6 +211,12 @@ void setup() {
       exit(); //stop further use of the APP
     }
   }
+  //
+  //Rectangular Layout and Image Drawing to CANVAS
+  //rect( backgroundImageX, backgroundImageY, backgroundImageWidth, backgroundImageHeight );
+  rect( topX, topY, topWidth, topHeight );
+  rect( bottomX, bottomY, bottomWidth, bottomHeight );
+  //
   //Background Image must be single executed code
   if ( nightMode == false ) tint(tintDayMode, tintDayModeOpacity); //use 1/2 tint value for white (i.e. 128/256=1/2)
   else {
@@ -168,6 +224,7 @@ void setup() {
   } //RGB: Night Mode
   image( pic, backgroundImageX, backgroundImageY, picWidthAdjusted, picHeightAdjusted);
 } //End Setup
+//
 void draw() {
   image(pic2, topX, topY, picWidthAdjusted2, picHeightAdjusted2);
   image(pic3, bottomX, bottomY, bottomWidth, bottomHeight);
